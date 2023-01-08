@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
+from matplotlib import pyplot as plt
 
 img = cv2.imread('./cmes.png')
-img = cv2.resize(img, (512, 512))
+img = cv2.resize(img, (256, 256))
 h, w, _ = img.shape
 dx, dy = 100, 100
 
