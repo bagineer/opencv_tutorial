@@ -36,3 +36,5 @@ for i, (name, method) in enumerate(methods.items()):
         print(f'img{j+1}:{ret:9.2f}', end='\t')
     print()
 plt.show()
+cv2.waitKey()
+cv2.destroyAllWindows()
