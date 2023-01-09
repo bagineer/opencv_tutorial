@@ -55,13 +55,11 @@ wave_lengths = [10, 20]
 amps = [5, 10]
 
 imgs = dict()
-i = 0
 for wl in wave_lengths:
     for amp in amps:
-        i += 1
         siny = mapy + amp * np.sin(mapx/wl)
         img_sin = cv2.remap(img, mapx, siny, cv2.INTER_LINEAR)
-        imgs[f'siny{i}_wavelength{wl}_amp{amp}'] = img_sin
+        imgs[f'siny_wavelength{wl}_amp{amp}'] = img_sin
 
 plt.figure('Wave length and amplitude')
 for i, (k, v) in enumerate(imgs.items()):
