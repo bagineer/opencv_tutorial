@@ -46,5 +46,6 @@ if cap.isOpened():
         a, b = b, c
         if cv2.waitKey(1) & 0xFF == 27:
             break
-    
+
+cap.release()
 cv2.destroyAllWindows()
