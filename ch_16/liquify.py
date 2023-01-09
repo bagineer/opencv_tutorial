@@ -59,7 +59,7 @@ def onMouse(event, x, y, flags, param):
             liquify(img, cx1, cy1, x, y)
             cv2.imshow(win_name, img)
 
-img = cv2.imread('./sample.jpg')
+img = cv2.imread('./grid.jpg')
 h, w, _ = img.shape
 
 cv2.namedWindow(win_name)
