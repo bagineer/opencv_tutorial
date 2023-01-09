@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from matplotlib import pyplot as plt
 
 img = cv2.imread('./sample.jpg')
 h, w, _ = img.shape
@@ -76,12 +77,41 @@ def onChange(x):
     distort(img, x0, y0)
     cv2.imshow(win_name, distorted)
 
-
 win_name = 'Distort Anywhere'
 cv2.namedWindow(win_name)
 cv2.setMouseCallback(win_name, onMouse)
 cv2.createTrackbar('EXP', win_name, 5, 15, onChange)
 cv2.imshow(win_name, img)
+
+# barrel and pincushion distortion
+k11, k12, k13 = 0.5, 0.2, 0.0
+k21, k22, k23 = -0.3, 0, 0
+
+mapy, mapx = np.indices((h, w), dtype=np.float32)
+mapx = 2*mapx/(w-1) - 1
+mapy = 2*mapy/(h-1) - 1
+r, theta = cv2.cartToPolar(mapx, mapy)
+
+ru1 = r*(1 + k11*(r**2) + k12*(r**4) + k13*(r**6))
+ru2 = r*(1 + k21*(r**2) + k22*(r**4) + k23*(r**6))
+
+mapx1, mapy1 = cv2.polarToCart(ru1, theta)
+mapx2, mapy2 = cv2.polarToCart(ru2, theta)
+mapx1, mapy1 = (mapx1+1)*(w-1)/2, (mapy1+1)*(h-1)/2
+mapx2, mapy2 = (mapx2+1)*(w-1)/2, (mapy2+1)*(h-1)/2
+
+distorted1 = cv2.remap(img, mapx1, mapy1, cv2.INTER_LINEAR)
+distorted2 = cv2.remap(img, mapx2, mapy2, cv2.INTER_LINEAR)
+
+plt.subplot(121)
+plt.imshow(distorted1)
+plt.title('Barrel')
+plt.axis('off')
+plt.subplot(122)
+plt.imshow(distorted2)
+plt.title('Barrel')
+plt.axis('off')
+plt.show()
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
