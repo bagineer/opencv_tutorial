@@ -35,35 +35,52 @@ distorted = cv2.remap(img, mapx, mapy, cv2.INTER_LINEAR)
 
 # Distort Anywhere
 is_dragging = False
+x0, y0 = -1, -1
+mapx0, mapy0 = None, None
+exp = 1
+distorted = img.copy()
 
 def distort(img, x, y):
+    global mapx0, mapy0, distorted
+
     h, w, _ = img.shape
     norm_x, norm_y = max(x, w - x), max(y, h - y)
     mapy, mapx = np.indices((h, w), dtype=np.float32)
     
     mapx, mapy = (mapx - x) / norm_x, (mapy - y) / norm_y
     r, theta = cv2.cartToPolar(mapx, mapy)
-    r[r<SCALE] = r[r<SCALE]**EXP
+    r[r<SCALE] = r[r<SCALE]**exp
 
     mapx, mapy = cv2.polarToCart(r, theta)
-    mapx, mapy = mapx*norm_x + x, mapy*norm_y + y
-    distorted = cv2.remap(img, mapx, mapy, cv2.INTER_LINEAR)
+    mapx0, mapy0 = mapx*norm_x + x, mapy*norm_y + y
+    distorted = cv2.remap(img, mapx0, mapy0, cv2.INTER_LINEAR)
     cv2.imshow(win_name, distorted)
 
 def onMouse(event, x, y, flag, param):
-    global is_dragging
+    global x0, y0, is_dragging
     if event == cv2.EVENT_LBUTTONDOWN:
         is_dragging = True
+        x0, y0 = x, y
         distort(img, x, y)
     elif event == cv2.EVENT_MOUSEMOVE:
         if is_dragging:
+            x0, y0 = x, y
             distort(img, x, y)
     elif event == cv2.EVENT_LBUTTONUP:
-        is_dragging = False
+        if is_dragging:
+            is_dragging = False
+
+def onChange(x):
+    global exp
+    exp = (x + 5) / 10
+    distort(img, x0, y0)
+    cv2.imshow(win_name, distorted)
+
 
 win_name = 'Distort Anywhere'
 cv2.namedWindow(win_name)
 cv2.setMouseCallback(win_name, onMouse)
+cv2.createTrackbar('EXP', win_name, 5, 15, onChange)
 cv2.imshow(win_name, img)
 
 cv2.waitKey(0)
