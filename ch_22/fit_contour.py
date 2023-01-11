@@ -15,7 +15,6 @@ def onMouse(event, x, y, flags, param):
         pts.append([x, y])
         cv2.circle(draw, (x, y), 2, 0, -1)
         cv2.imshow(win_name, draw)
-        print(pts)
 
     elif event == cv2.EVENT_MOUSEMOVE:
         pass
@@ -58,7 +57,7 @@ def fit_contour_bound(img):
 cv2.imshow(win_name, img)
 cv2.setMouseCallback(win_name, onMouse)
 
-while True:
+while cv2.getWindowProperty(win_name, 0) >= 0:
     key = cv2.waitKey(1)
     if key == 13:   # enter
         cv2.fillPoly(img, [np.array(pts)], 0)
