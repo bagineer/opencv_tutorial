@@ -4,8 +4,8 @@ import numpy as np
 target = cv2.imread('./4star.jpg')
 shapes = cv2.imread('./shapestomatch.jpg')
 h = shapes.shape[0]
-coppied = cv2.resize(target, (h, h), None)
-shapes = np.hstack((coppied, shapes))
+copied = cv2.resize(target, (h, h), None)
+shapes = np.hstack((copied, shapes))
 
 t_gray = cv2.cvtColor(target, cv2.COLOR_BGR2GRAY)
 s_gray = cv2.cvtColor(shapes, cv2.COLOR_BGR2GRAY)
