@@ -22,10 +22,13 @@ def onMouse(event, x, y, flags, param):
     elif event == cv2.EVENT_LBUTTONUP:
         pass
 
-def fit_contour_bound(img):
+def get_contours(img, mode, method):
     _, img_bin = cv2.threshold(img[:, :, 0], 127, 255, cv2.THRESH_BINARY_INV)
-    _, contours, _ = cv2.findContours(img_bin, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    contour = contours[0]
+    _, contours, _ = cv2.findContours(img_bin, mode, method)
+    return contours[0]
+
+def fit_contour_bound(img):
+    contour = get_contours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # draw bounding rectangle
     x, y, w, h = cv2.boundingRect(contour)
@@ -51,8 +54,18 @@ def fit_contour_bound(img):
 
     # draw centerline
     [vx, vy, x, y] = cv2.fitLine(contour, cv2.DIST_L2, 0, 0.01, 0.01)
-    h, w = img_bin.shape
+    h, w, _ = img.shape
     cv2.line(img, (0, 0-x*(vy/vx) + y), (w-1, (w-x)*(vy/vx) + y), (0, 255, 255), 4)
+
+def simplify_contour(img, e):
+    contour = get_contours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    epsilon = e * cv2.arcLength(contour, True)
+    approx = cv2.approxPolyDP(contour, epsilon, True)
+
+    # draw contour
+    cv2.drawContours(img, [contour], -1, (0, 0, 255), 4)
+    cv2.drawContours(img, [approx], -1, (0, 255, 0), 4)
 
 cv2.imshow(win_name, img)
 cv2.setMouseCallback(win_name, onMouse)
@@ -62,6 +75,7 @@ while cv2.getWindowProperty(win_name, 0) >= 0:
     if key == 13:   # enter
         cv2.fillPoly(img, [np.array(pts)], 0)
         cv2.imshow(win_name, img)
+        draw = img.copy()
     elif key == 27:   # esc
         break
     elif key == ord('c'):
@@ -70,7 +84,10 @@ while cv2.getWindowProperty(win_name, 0) >= 0:
         draw = origin.copy()
         img = origin.copy()
     elif key == ord('f'):
-        fit_contour_bound(img)
-        cv2.imshow(win_name, img)
+        fit_contour_bound(draw)
+        cv2.imshow(win_name, draw)
+    elif key == ord('s'):
+        simplify_contour(draw, 0.05)
+        cv2.imshow(win_name, draw)
 
 cv2.destroyAllWindows()
