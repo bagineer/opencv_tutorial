@@ -67,27 +67,55 @@ def simplify_contour(img, e):
     cv2.drawContours(img, [contour], -1, (0, 0, 255), 4)
     cv2.drawContours(img, [approx], -1, (0, 255, 0), 4)
 
+def convex_hull(img):
+    contour = get_contours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    cv2.drawContours(img, [contour], -1, (0, 0, 255), 4)
+
+    hull = cv2.convexHull(contour)
+    cv2.drawContours(draw, [hull], -1, (0, 255, 0), 4)
+
+    hull2 = cv2.convexHull(contour, returnPoints=False)
+    defects = cv2.convexityDefects(contour, hull2)
+
+    for i in range(defects.shape[0]):
+        s, e, f, d = defects[i, 0]
+        farthest = tuple(contour[f][0])
+        dist = d/256.0
+        if dist > 1:
+            cv2.circle(draw, farthest, 4, (255, 0, 0), -1)
+        
+
 cv2.imshow(win_name, img)
 cv2.setMouseCallback(win_name, onMouse)
 
 while cv2.getWindowProperty(win_name, 0) >= 0:
     key = cv2.waitKey(1)
+
     if key == 13:   # enter
         cv2.fillPoly(img, [np.array(pts)], 0)
         cv2.imshow(win_name, img)
         draw = img.copy()
+    
     elif key == 27:   # esc
         break
+
     elif key == ord('c'):
         cv2.imshow(win_name, origin)
         pts = list()
         draw = origin.copy()
         img = origin.copy()
+    
     elif key == ord('f'):
         fit_contour_bound(draw)
         cv2.imshow(win_name, draw)
+    
     elif key == ord('s'):
         simplify_contour(draw, 0.05)
+        cv2.imshow(win_name, draw)
+
+    elif key == ord('h'):
+        convex_hull(draw)
         cv2.imshow(win_name, draw)
 
 cv2.destroyAllWindows()
