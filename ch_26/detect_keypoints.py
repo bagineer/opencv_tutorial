@@ -4,10 +4,10 @@ import numpy as np
 # Harris Corner Detection
 img = cv2.imread('./sample.jpg')
 img_draw = img.copy()
-gray = cv2.cvtColor(img_draw, cv2.COLOR_BGR2GRAY)
+img_gray = cv2.cvtColor(img_draw, cv2.COLOR_BGR2GRAY)
 cv2.imshow('Original', img)
 
-corner = cv2.cornerHarris(gray, 2, 7, 0.2)
+corner = cv2.cornerHarris(img_gray, 2, 7, 0.2)
 coords = np.where(corner > 0.1 * corner.max())
 coords = np.stack((coords[1], coords[0]), axis = -1)
 
@@ -21,7 +21,7 @@ cv2.imshow('Harris', img_draw)
 
 # Shi-Tomasi Detection
 img_draw = img.copy()
-corners = cv2.goodFeaturesToTrack(gray, 30, 0.01, 10)
+corners = cv2.goodFeaturesToTrack(img_gray, 30, 0.01, 10)
 corners = np.int32(corners)
 
 for i, corner in enumerate(corners):
@@ -34,7 +34,7 @@ cv2.imshow('GFTT Shi - Tomasi', img_draw)
 img_draw = img.copy()
 
 gftt = cv2.GFTTDetector_create()
-keypoints = gftt.detect(gray, None)
+keypoints = gftt.detect(img_gray, None)
 
 img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
 cv2.imshow('GFTT', img_draw)
@@ -43,17 +43,40 @@ cv2.imshow('GFTT', img_draw)
 img_draw = img.copy()
 
 fast = cv2.FastFeatureDetector_create(100)
-keypoints = fast.detect(gray, None)
+keypoints = fast.detect(img_gray, None)
 img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
 
 cv2.imshow('FAST', img_draw)
 
 # SimpleBlobDetector
 detector = cv2.SimpleBlobDetector_create()
-keypoints = detector.detect(gray)
+keypoints = detector.detect(img_gray)
 img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
 
-cv2.imshow('SimpleBlobDetector', img_draw)
+cv2.imshow('SBD', img_draw)
+
+# SimpleBlobDetector with filter options
+img_draw = img.copy()
+
+params = cv2.SimpleBlobDetector_Params()
+params.minThreshold = 10
+params.maxThreshold = 240
+params.thresholdStep = 5
+
+params.filterByArea = True
+params.minArea = 50
+
+params.filterByColor = False
+params.filterByConvexity = False
+params.filterByInertia = False
+params.filterByCircularity = False
+
+detector = cv2.SimpleBlobDetector_create(params)
+keypoints = detector.detect(img_gray)
+img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
+
+cv2.imshow('SBD with filter options', img_draw)
+
 
 
 cv2.waitKey()
