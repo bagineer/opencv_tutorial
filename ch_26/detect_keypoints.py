@@ -49,9 +49,12 @@ img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
 cv2.imshow('FAST', img_draw)
 
 # SimpleBlobDetector
+img_draw = img.copy()
+
 detector = cv2.SimpleBlobDetector_create()
 keypoints = detector.detect(img_gray)
-img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
+img_draw = cv2.drawKeypoints(img_draw, keypoints, None, (0, 0, 255),
+                             flags = cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 cv2.imshow('SBD', img_draw)
 
@@ -64,7 +67,7 @@ params.maxThreshold = 240
 params.thresholdStep = 5
 
 params.filterByArea = True
-params.minArea = 50
+params.minArea = 300
 
 params.filterByColor = False
 params.filterByConvexity = False
@@ -73,11 +76,10 @@ params.filterByCircularity = False
 
 detector = cv2.SimpleBlobDetector_create(params)
 keypoints = detector.detect(img_gray)
-img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
+img_draw = cv2.drawKeypoints(img_draw, keypoints, None, None,
+                             flags = cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
 cv2.imshow('SBD with filter options', img_draw)
-
-
 
 cv2.waitKey()
 cv2.destroyAllWindows()
