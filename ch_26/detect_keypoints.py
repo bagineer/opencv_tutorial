@@ -48,5 +48,13 @@ img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
 
 cv2.imshow('FAST', img_draw)
 
+# SimpleBlobDetector
+detector = cv2.SimpleBlobDetector_create()
+keypoints = detector.detect(gray)
+img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
+
+cv2.imshow('SimpleBlobDetector', img_draw)
+
+
 cv2.waitKey()
 cv2.destroyAllWindows()
