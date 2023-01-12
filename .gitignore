@@ -133,3 +133,4 @@ dmypy.json
 **/*.avi
 **/*.jpeg
 **/imgs/
+**/101_ObjectCategories/
