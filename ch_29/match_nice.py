@@ -9,7 +9,8 @@ img2 = cv2.imread(osp.join(file_path, 'sample2.jpg'))
 img2 = cv2.resize(img2, (0, 0), None, 0.5, 0.5)
 gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 
-# ORB
+## ORB
+# matcher.match
 orb = cv2.ORB_create()
 kp_orb_1, desc_orb_1 = orb.detectAndCompute(gray1, None)
 kp_orb_2, desc_orb_2 = orb.detectAndCompute(gray2, None)
@@ -28,9 +29,23 @@ print(f'matches : {len(nice_matches)}, min : {min_dist}, max : {max_dist}, thres
 
 res = cv2.drawMatches(img1, kp_orb_1, img2, kp_orb_2, nice_matches, None,
                       flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
+cv2.imshow('ORB + matcher.match', res)
 
-cv2.imshow('res', res)
-cv2.imshow('1', img1)
-cv2.imshow('2', img2)
+# matcher.knnMatch
+matcher = cv2.BFMatcher(cv2.NORM_HAMMING2)
+matches = matcher.knnMatch(desc_orb_1, desc_orb_2, 2)
+
+ratio = 0.7
+nice_matches = [f for f, s in matches if f.distance < s.distance * ratio]
+print(f'matches : {len(nice_matches)}, {len(matches)}')
+
+res = cv2.drawMatches(img1, kp_orb_1, img2, kp_orb_2, nice_matches, None,
+                      flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
+cv2.imshow('ORB + KNN', res)
+
+
+
+cv2.imshow('Template', img1)
+cv2.imshow('Target', img2)
 cv2.waitKey()
 cv2.destroyAllWindows()
