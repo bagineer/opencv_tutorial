@@ -15,38 +15,72 @@ gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 cv2.imshow('Template', img1)
 cv2.imshow('Target', img2)
 
+## BFM
 # BFMatcher + SIFT
-detector = cv2.xfeatures2d.SIFT_create()
-kp1, desc1 = detector.detectAndCompute(gray1, None)
-kp2, desc2 = detector.detectAndCompute(gray2, None)
+sift = cv2.xfeatures2d.SIFT_create()
+kp_sift_1, desc_sift_1 = sift.detectAndCompute(gray1, None)
+kp_sift_2, desc_sift_2 = sift.detectAndCompute(gray2, None)
 
 matcher = cv2.BFMatcher(cv2.NORM_L1, crossCheck = True)
-matches = matcher.match(desc1, desc2)
-res = cv2.drawMatches(img1, kp1, img2, kp2, matches, None,
+matches = matcher.match(desc_sift_1, desc_sift_2)
+res = cv2.drawMatches(img1, kp_sift_1, img2, kp_sift_2, matches, None,
                       flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
 cv2.imshow('BFMatcher + SIFT', res)
 
 # BFMatcher + SURF
-detector = cv2.xfeatures2d.SURF_create()
-kp1, desc1 = detector.detectAndCompute(gray1, None)
-kp2, desc2 = detector.detectAndCompute(gray2, None)
+surf = cv2.xfeatures2d.SURF_create()
+kp_surf_1, desc_surf_1 = surf.detectAndCompute(gray1, None)
+kp_surf_2, desc_surf_2 = surf.detectAndCompute(gray2, None)
 
 matcher = cv2.BFMatcher(cv2.NORM_L2, crossCheck = True)
-matches = matcher.match(desc1, desc2)
-res = cv2.drawMatches(img1, kp1, img2, kp2, matches, None,
+matches = matcher.match(desc_surf_1, desc_surf_2)
+res = cv2.drawMatches(img1, kp_surf_1, img2, kp_surf_2, matches, None,
                       flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
 cv2.imshow('BFMatcher + SURF', res)
 
 # BFMatcher + ORB
-detector = cv2.ORB_create()
-kp1, desc1 = detector.detectAndCompute(gray1, None)
-kp2, desc2 = detector.detectAndCompute(gray2, None)
+orb = cv2.ORB_create()
+kp_orb_1, desc_orb_1 = orb.detectAndCompute(gray1, None)
+kp_orb_2, desc_orb_2 = orb.detectAndCompute(gray2, None)
 
 matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck = True)
-matches = matcher.match(desc1, desc2)
-res = cv2.drawMatches(img1, kp1, img2, kp2, matches, None,
+matches = matcher.match(desc_orb_1, desc_orb_2)
+res = cv2.drawMatches(img1, kp_orb_1, img2, kp_orb_2, matches, None,
                       flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
 cv2.imshow('BFMatcher + ORB', res)
+
+## FLANN
+FLANN_INDEX_KDTREE = 1
+index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
+search_params = dict(checks = 50)
+
+# FLANN + SIFT
+matcher = cv2.FlannBasedMatcher(index_params, search_params)
+matches = matcher.match(desc_sift_1, desc_sift_2)
+res = cv2.drawMatches(img1, kp_sift_1, img2, kp_sift_2, matches, None,
+                      flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
+cv2.imshow('FLANN + SIFT', res)
+
+# FLANN + SURF
+matcher = cv2.FlannBasedMatcher(index_params, search_params)
+matches = matcher.match(desc_surf_1, desc_surf_2)
+res = cv2.drawMatches(img1, kp_surf_1, img2, kp_surf_2, matches, None,
+                      flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
+cv2.imshow('FLANN + SURF', res)
+
+# FLANN + ORB
+FLANN_INDEX_LSH = 6
+index_params = dict(algorithm = FLANN_INDEX_LSH,
+                    table_number = 6,
+                    key_size = 12,
+                    multi_probe_level = 1)
+search_params = dict(checks = 30)
+
+matcher = cv2.FlannBasedMatcher(index_params, search_params)
+matches = matcher.match(desc_orb_1, desc_orb_2)
+res = cv2.drawMatches(img1, kp_orb_1, img2, kp_orb_2, matches, None,
+                      flags = cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)
+cv2.imshow('FLANN + ORB', res)
 
 cv2.waitKey()
 cv2.destroyAllWindows()
