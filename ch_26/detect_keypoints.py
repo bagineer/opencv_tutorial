@@ -39,7 +39,14 @@ keypoints = gftt.detect(gray, None)
 img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
 cv2.imshow('GFTT', img_draw)
 
+# FAST (Feature from Accelerated Segment Test)
+img_draw = img.copy()
 
+fast = cv2.FastFeatureDetector_create(100)
+keypoints = fast.detect(gray, None)
+img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
+
+cv2.imshow('FAST', img_draw)
 
 cv2.waitKey()
 cv2.destroyAllWindows()
