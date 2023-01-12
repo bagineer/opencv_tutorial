@@ -30,6 +30,15 @@ for i, corner in enumerate(corners):
 
 cv2.imshow('GFTT Shi - Tomasi', img_draw)
 
+# GFTTDetection (Good Features To Track)
+img_draw = img.copy()
+
+gftt = cv2.GFTTDetector_create()
+keypoints = gftt.detect(gray, None)
+
+img_draw = cv2.drawKeypoints(img_draw, keypoints, None)
+cv2.imshow('GFTT', img_draw)
+
 
 
 cv2.waitKey()
