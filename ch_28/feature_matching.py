@@ -1,14 +1,14 @@
 import cv2
 import numpy as np
-import os
+import os.path as osp
 
-file_path = os.path.dirname(os.path.abspath(__file__))
+file_path = osp.dirname(osp.abspath(__file__))
 
-img1 = cv2.imread(os.path.join(file_path, 'sample1.jpg'))
+img1 = cv2.imread(osp.join(file_path, 'sample1.jpg'))
 img1 = cv2.resize(img1, (0, 0), None, 0.7, 0.7, cv2.INTER_LINEAR)
 gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 
-img2 = cv2.imread(os.path.join(file_path, 'sample2.jpg'))
+img2 = cv2.imread(osp.join(file_path, 'sample2.jpg'))
 img2 = cv2.resize(img2, (0, 0), None, 0.7, 0.7, cv2.INTER_LINEAR)
 gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 

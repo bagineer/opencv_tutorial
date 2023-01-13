@@ -1,8 +1,12 @@
 import cv2
 import numpy as np
+import os.path as osp
 
 # Harris Corner Detection
-img = cv2.imread('./sample.jpg')
+
+file_path = osp.dirname(osp.abspath(__file__))
+
+img = cv2.imread(osp.join(file_path, 'sample.jpg'))
 img_draw = img.copy()
 img_gray = cv2.cvtColor(img_draw, cv2.COLOR_BGR2GRAY)
 cv2.imshow('Original', img)
