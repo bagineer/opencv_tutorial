@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
+import os.path as osp
 from matplotlib import pyplot as plt
 
 
 ## Gray Scale
-img_gray = cv2.imread('./Lenna.png', cv2.IMREAD_GRAYSCALE)
+
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'Lenna.png'
+img_gray = cv2.imread(osp.join(file_path, file_name), cv2.IMREAD_GRAYSCALE)
 
 hist = cv2.calcHist([img_gray], [0], None, [256], [0, 256])
 
@@ -21,7 +25,7 @@ plt.plot(hist)
 
 
 ## Color
-img = cv2.imread('./Lenna.png')
+img = cv2.imread(osp.join(file_path, file_name))
 plt.figure('Color')
 plt.subplot(1, 2, 1)
 plt.imshow(img[:, :, ::-1])
