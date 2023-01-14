@@ -1,7 +1,11 @@
 import cv2
+import os.path as osp
 import numpy as np
 
-img = cv2.imread('./cool.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 win_name = 'Mean Shift'
 tb1_name = 'SP'
 tb2_name = 'SR'
