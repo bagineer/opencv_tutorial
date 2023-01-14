@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
+import os.path as osp
 from matplotlib import pyplot as plt
 
 win_name = 'Back projection'
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpeg'
+img_file = osp.join(file_path, file_name)
 # img = cv2.imread('./sample.jpeg')
-img = cv2.imread('./sample2.jpg')
+img = cv2.imread(img_file)
 hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 draw = img.copy()
 
