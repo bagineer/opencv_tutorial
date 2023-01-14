@@ -1,8 +1,12 @@
 import cv2
+import os.path as osp
 from matplotlib import pyplot as plt
 
 plt.style.use('classic')
-img = cv2.imread('./sample.jpeg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpeg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 
 plt.subplot(211)
 plt.imshow(img[:, :, ::-1])
