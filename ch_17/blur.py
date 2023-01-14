@@ -1,7 +1,11 @@
 import cv2
+import os.path as osp
 import numpy as np
 
-img = cv2.imread('./sample.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 h, w, b = img.shape
 noised = img + np.random.randint(-30, 30, (h, w, b))
 noised[noised<0] = 0
