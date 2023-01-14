@@ -1,8 +1,10 @@
 import cv2
+import os.path as osp
 import numpy as np
 
-target = cv2.imread('./4star.jpg')
-shapes = cv2.imread('./shapestomatch.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+target = cv2.imread(osp.join(file_path, '4star.jpg'))
+shapes = cv2.imread(osp.join(file_path, 'shapestomatch.jpg'))
 h = shapes.shape[0]
 copied = cv2.resize(target, (h, h), None)
 shapes = np.hstack((copied, shapes))
