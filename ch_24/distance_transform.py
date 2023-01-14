@@ -1,7 +1,11 @@
 import cv2
+import os.path as osp
 import numpy as np
 
-img = cv2.imread('./silhouette.jpg', cv2.IMREAD_GRAYSCALE)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'silhouette.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file, cv2.IMREAD_GRAYSCALE)
 _, img_bin = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
 
 dist = cv2.distanceTransform(img_bin, cv2.DIST_L2, 5)
