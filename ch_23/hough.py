@@ -1,7 +1,10 @@
 import cv2
+import os.path as osp
 import numpy as np
 
-img = cv2.imread('./sample.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpg'
+img = cv2.imread(osp.join(file_path, file_name))
 # img = cv2.resize(img, (0, 0), None, 0.5, 0.5)
 copied1 = img.copy()
 copied2 = img.copy()
