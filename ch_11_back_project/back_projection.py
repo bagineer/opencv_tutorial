@@ -15,12 +15,12 @@ draw = img.copy()
 def masking(bp, win_name, i):
     disc = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
     cv2.filter2D(bp, -1, disc, bp)
-    cv2.imwrite(f'./mask_before_thresholding.png', bp)
+    cv2.imwrite(osp.join(file_path, 'mask_before_thresholding.png'), bp)
 
     _, mask = cv2.threshold(bp, 1, 255, cv2.THRESH_BINARY)
     result = cv2.bitwise_and(img, img, mask=mask)
     cv2.imshow(win_name, result)
-    cv2.imwrite(f'./mask_{i}.png', mask)
+    cv2.imwrite(osp.join(file_path, f'mask_{i}.png'), mask)
 
 def backProject_manual(hist_roi):
     hist_img = cv2.calcHist([hsv_img], [0, 1], None, [180, 256], [0, 180, 0, 256])
@@ -33,7 +33,7 @@ def backProject_manual(hist_roi):
     plt.xlabel('S')
     plt.ylabel('H', rotation=0)
     plt.colorbar(p)
-    plt.savefig('./original.png')
+    plt.savefig(osp.join(file_path, 'original.png'))
 
     plt.figure('ROI')
     p = plt.imshow(hist_roi)
@@ -41,7 +41,7 @@ def backProject_manual(hist_roi):
     plt.xlabel('S')
     plt.ylabel('H', rotation=0)
     plt.colorbar(p)
-    plt.savefig('./roi.png')
+    plt.savefig(osp.join(file_path, 'roi.png'))
 
     plt.figure('Rate')
     p = plt.imshow(hist_rate)
@@ -49,7 +49,7 @@ def backProject_manual(hist_roi):
     plt.xlabel('S')
     plt.ylabel('H', rotation=0)
     plt.colorbar(p)
-    plt.savefig('./hist_rate.png')
+    plt.savefig(osp.join(file_path, 'hist_rate.png'))
 
     h, s, v = cv2.split(hsv_img)
     bp = hist_rate[h.ravel(), s.ravel()]
@@ -61,7 +61,7 @@ def backProject_manual(hist_roi):
     plt.xlabel('X')
     plt.ylabel('Y', rotation=0)
     plt.colorbar(p)
-    plt.savefig('./bp.png')
+    plt.savefig(osp.join(file_path, 'bp.png'))
 
     cv2.normalize(bp, bp, 0, 255, cv2.NORM_MINMAX)
     bp = bp.astype(np.uint8)
