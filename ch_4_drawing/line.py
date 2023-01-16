@@ -1,10 +1,13 @@
 import cv2
+import os
 import os.path as osp
 import random
 
-img_path = '../ch_3_image_IO/captured'
-img_file = 'captured_000.png'
-img = cv2.imread(osp.join(img_path, img_file))
+file_path = osp.dirname(osp.abspath(__file__))
+file_path = osp.abspath(osp.join(file_path, os.pardir, 'ch_3_image_IO/captured'))
+file_name = 'captured_000.png'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 height, width, _ = img.shape
 print(width, height)
 x0, y0 = -1, -1
