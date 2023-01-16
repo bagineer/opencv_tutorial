@@ -1,7 +1,9 @@
 import cv2
 import os.path as osp
 
-video_file = './recordings/video.avi'
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'video.avi'
+video_file = osp.join(file_path, 'recordings', file_name)
 
 cap = cv2.VideoCapture(video_file)
 fps = 30.0
