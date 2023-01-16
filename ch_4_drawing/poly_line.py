@@ -1,13 +1,15 @@
-from re import L
 import cv2
+import os
 import os.path as osp
 import numpy as np
 
 ## Settings
 # Read image.
-img_path = '../ch_3_image_IO/captured'
-img_file = 'captured_003.png'
-img = cv2.imread(osp.join(img_path, img_file))
+file_path = osp.dirname(osp.abspath(__file__))
+file_path = osp.abspath(osp.join(file_path, os.pardir, 'ch_3_image_IO/captured'))
+file_name = 'captured_002.png'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 
 # poly line coordinates
 tri = np.array([[200, 200], [300, 300], [400, 200]], np.int32)
