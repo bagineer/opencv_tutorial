@@ -1,6 +1,9 @@
 import cv2
+import os.path as osp
 
-img_file = './asdf.png'
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'asdf.png'
+img_file = osp.join(file_path, file_name)
 img = cv2.imread(img_file)    # open color image.
 # img = cv2.imread(img_file, cv2.IMREAD_GRAYSCALE)    # open gray scale image.
 
