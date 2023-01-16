@@ -1,9 +1,11 @@
 import cv2
+import os
 import os.path as osp
 import random
 
 ## Settings
-file_path = '../ch_3_image_IO/captured'
+file_path = osp.dirname(osp.abspath(__file__))
+file_path = osp.abspath(osp.join(file_path, os.pardir, 'ch_3_image_IO/captured'))
 file_name = 'captured_000.png'
 img_file = osp.join(file_path, file_name)
 img_orig = cv2.imread(img_file)
