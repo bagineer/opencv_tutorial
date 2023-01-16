@@ -1,11 +1,14 @@
 import cv2
+import os
 import os.path as osp
 
 ## Settings
 # Read image.
-file_path = '../ch_3_image_IO/captured'
+file_path = osp.dirname(osp.abspath(__file__))
+file_path = osp.abspath(osp.join(file_path, os.pardir, 'ch_3_image_IO/captured'))
 file_name = 'captured_002.png'
-img = cv2.imread(osp.join(file_path, file_name))
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 
 cx, cy, x1, y1 = -1, -1, -1, -1
 lx, ly, sx, sy = -1, -1, -1, -1
