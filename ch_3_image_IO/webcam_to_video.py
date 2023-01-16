@@ -5,10 +5,11 @@ import os.path as osp
 cap = cv2.VideoCapture(0)
 
 if cap.isOpened():
-    file_path = './recordings/'
+    file_path = osp.dirname(osp.abspath(__file__))
+    save_path = osp.join(file_path, 'recordings')
 
-    if not osp.exists(file_path):
-        os.mkdir(file_path)
+    if not osp.exists(save_path):
+        os.mkdir(save_path)
 
     # Settings
     video_file = 'video.avi'
@@ -22,7 +23,7 @@ if cap.isOpened():
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     size = (int(width), int(height))
-    outWriter = cv2.VideoWriter(file_path + video_file, fourcc, fps, size)
+    outWriter = cv2.VideoWriter(osp.join(save_path, video_file), fourcc, fps, size)
 
     while True:
         ret, img = cap.read()
@@ -35,7 +36,7 @@ if cap.isOpened():
                 break
             # Save as an image.
             elif waitKey == ord('s'):
-                cv2.imwrite(f'{file_path + img_file}_{str(img_idx).zfill(3)}.png', img)
+                cv2.imwrite(f'{osp.join(save_path, img_file)}_{str(img_idx).zfill(3)}.png', img)
                 img_idx += 1
         else:
             print('no frame')
