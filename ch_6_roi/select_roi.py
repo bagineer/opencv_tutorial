@@ -1,25 +1,28 @@
-import cv2 as cv
+import cv2
+import os.path as osp
 
 # Read image.
-image_file = './sample.jpg'
-image = cv.imread(image_file)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpg'
+img_file = osp.join(file_path, file_name)
+image = cv2.imread(img_file)
 
 # Resize image.
 HEIGHT, WIDTH, _ = image.shape
 SCALE = 0.2
-image = cv.resize(image, (int(WIDTH*SCALE), int(HEIGHT*SCALE)))
+image = cv2.resize(image, (int(WIDTH*SCALE), int(HEIGHT*SCALE)))
 
 if image is not None:
-    cv.imshow('Select ROI', image)
+    cv2.imshow('Select ROI', image)
 
     while True:
-        x, y, w, h = cv.selectROI('image', image)
+        if cv2.waitKey(0) == ord('q'):
+            cv2.destroyAllWindows()
+            break
+
+        x, y, w, h = cv2.selectROI('Select ROI', image)
         if w and h:
             roi = image[y:y+h, x:x+w]
-            cv.imshow('ROI', roi)
-
-        if cv.waitKey(0) == ord('q'):
-            cv.destroyAllWindows()
-            break
+            cv2.imshow('ROI', roi)
 else:
     exit(-1)
