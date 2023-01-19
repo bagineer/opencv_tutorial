@@ -1,10 +1,13 @@
 import cv2 as cv
+import os.path as osp
 
-file_name = './sample.png'
-image = cv.imread(file_name)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.png'
+img_file = osp.join(file_path, file_name)
+image = cv.imread(img_file)
 print(image.shape)
-bgr = cv.imread(file_name, cv.IMREAD_COLOR)
-bgra = cv.imread(file_name, cv.IMREAD_UNCHANGED)
+bgr = cv.imread(img_file, cv.IMREAD_COLOR)
+bgra = cv.imread(img_file, cv.IMREAD_UNCHANGED)
 
 cv.imshow('Color', image)
 cv.imshow('BGR', bgr)
