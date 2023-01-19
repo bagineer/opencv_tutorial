@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
+import os.path as osp
 from matplotlib import pyplot as plt
 
 # simple blending
-img1 = cv2.imread('./lion.jpg')
-img2 = cv2.imread('./tiger.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+img_file1 = osp.join(file_path, 'lion.jpg')
+img_file2 = osp.join(file_path, 'tiger.jpg')
+img1 = cv2.imread(img_file1)
+img2 = cv2.imread(img_file2)
 h1, w1, _ = img1.shape
 h2, w2, _ = img2.shape
 mh, mw = min(h1, h2), min(w1, w2)
