@@ -1,9 +1,13 @@
 import cv2 as cv
+import os.path as osp
 from matplotlib import pyplot as plt
 
 block_size = 7
 C = 5
-image = cv.imread('./Lenna.png', cv.IMREAD_GRAYSCALE)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'Lenna.png'
+img_file = osp.join(file_path, file_name)
+image = cv.imread(img_file, cv.IMREAD_GRAYSCALE)
 
 t, t_otsu = cv.threshold(image, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
 t_mean = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, block_size, C)
