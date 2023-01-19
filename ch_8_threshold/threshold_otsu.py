@@ -1,7 +1,11 @@
 import cv2 as cv
+import os.path as osp
 from matplotlib import pyplot as plt
 
-image = cv.imread('./Lenna.png', cv.IMREAD_GRAYSCALE)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'Lenna.png'
+img_file = osp.join(file_path, file_name)
+image = cv.imread(img_file, cv.IMREAD_GRAYSCALE)
 _, t_140 = cv.threshold(image, 140, 255, cv.THRESH_BINARY)
 t, t_otsu = cv.threshold(image, -1, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
 print('Otsu threshold :', t)
