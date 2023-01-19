@@ -1,7 +1,11 @@
 import cv2 as cv
 import numpy as np
+import os.path as osp
 
-image = cv.imread('./sample.png')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.png'
+img_file = osp.join(file_path, file_name)
+image = cv.imread(img_file)
 print(image.shape)
 
 uint_image = image.astype(np.uint16)
