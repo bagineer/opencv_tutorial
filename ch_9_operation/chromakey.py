@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
+import os.path as osp
 from matplotlib import pyplot as plt
 
-fg = cv2.imread('./chromakey.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+img_fg = osp.join(file_path, 'chromakey.jpg')
+img_bg = osp.join(file_path, 'antarctica.jpg')
+fg = cv2.imread(img_fg)
 fg = fg[50:-50]
-bg = cv2.imread('./antarctica.jpg')
+bg = cv2.imread(img_bg)
 
 h, w, _ = fg.shape
 h2, w2, _ = bg.shape
