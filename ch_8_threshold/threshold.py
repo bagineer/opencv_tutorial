@@ -1,8 +1,12 @@
 import cv2 as cv
 import numpy as np
+import os.path as osp
 from matplotlib import pyplot as plt
 
-image = cv.imread('./gradient.jpg', cv.IMREAD_GRAYSCALE)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'gradient.jpg'
+img_file = osp.join(file_path, file_name)
+image = cv.imread(img_file, cv.IMREAD_GRAYSCALE)
 
 thresh = np.zeros_like(image)
 thresh[image > 127] = 255
