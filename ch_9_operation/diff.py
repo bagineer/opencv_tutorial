@@ -1,9 +1,13 @@
 import cv2
+import os.path as osp
 from matplotlib import pyplot as plt
 
-img1 = cv2.imread('./diff1.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+img_file1 = osp.join(file_path, 'diff1.jpg')
+img_file2 = osp.join(file_path, 'diff2.jpg')
+img1 = cv2.imread(img_file1)
 img1 = img1[:500, :, :]
-img2 = cv2.imread('./diff2.jpg')
+img2 = cv2.imread(img_file2)
 img2 = img2[:500, :, :]
 
 img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
