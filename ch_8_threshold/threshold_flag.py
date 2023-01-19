@@ -1,7 +1,11 @@
 import cv2 as cv
+import os.path as osp
 from matplotlib import pyplot as plt
 
-image = cv.imread('./gradient.jpg', cv.IMREAD_GRAYSCALE)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'gradient.jpg'
+img_file = osp.join(file_path, file_name)
+image = cv.imread(img_file, cv.IMREAD_GRAYSCALE)
 
 _, t_bin = cv.threshold(image, 127, 255, cv.THRESH_BINARY)
 _, t_bininv = cv.threshold(image, 127, 255, cv.THRESH_BINARY_INV)
