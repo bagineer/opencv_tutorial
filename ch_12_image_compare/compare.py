@@ -1,11 +1,17 @@
 import cv2
 import numpy as np
+import os.path as osp
 from matplotlib import pyplot as plt
 
-img1 = cv2.imread('./taekwonv1.jpg')
-img2 = cv2.imread('./taekwonv2.jpg')
-img3 = cv2.imread('./taekwonv3.jpg')
-img4 = cv2.imread('./dr_ochanomizu.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+img_file1 = osp.join(file_path, 'taekwonv1.jpg')
+img_file2 = osp.join(file_path, 'taekwonv2.jpg')
+img_file3 = osp.join(file_path, 'taekwonv3.jpg')
+img_file4 = osp.join(file_path, 'dr_ochanomizu.jpg')
+img1 = cv2.imread(img_file1)
+img2 = cv2.imread(img_file2)
+img3 = cv2.imread(img_file3)
+img4 = cv2.imread(img_file4)
 
 win_name = 'Query'
 cv2.imshow(win_name, img1)
