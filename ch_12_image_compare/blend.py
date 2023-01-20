@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
+import os.path as osp
 
 ALPHA_WIDTH_RATE = 15
 
-tiger = cv2.imread('./tiger.jpg')
-lion = cv2.imread('./lion.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+img_tiger = osp.join(file_path, 'tiger.jpg')
+img_lion = osp.join(file_path, 'lion.jpg')
+tiger = cv2.imread(img_tiger)
+lion = cv2.imread(img_lion)
 blended = np.zeros_like(tiger)
 
 h, w, _ = tiger.shape
