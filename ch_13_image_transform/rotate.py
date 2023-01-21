@@ -1,8 +1,11 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
+import os.path as osp
 
-img = cv2.imread('./cmes.png')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'cmes.png'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 img = cv2.resize(img, None, None, 0.5, 0.5)
 h, w, _ = img.shape
 
