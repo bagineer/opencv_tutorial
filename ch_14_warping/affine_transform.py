@@ -1,8 +1,11 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
+import os.path as osp
 
-img = cv2.imread('./sample.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 h, w, _ = img.shape
 print(h, w)
 
