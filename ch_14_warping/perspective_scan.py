@@ -1,8 +1,12 @@
 import cv2
 import numpy as np
+import os.path as osp
 
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'leaflet.jpg'
+img_file = osp.join(file_path, file_name)
 win_name = 'Scanning'
-img = cv2.imread('./leaflet.jpg')
+img = cv2.imread(img_file)
 h, w, _ = img.shape
 draw = img.copy()
 pts_cnt = 0
