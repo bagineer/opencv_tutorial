@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import os.path as osp
 
 win_name = 'Liquify'
 half = 50
@@ -59,7 +60,10 @@ def onMouse(event, x, y, flags, param):
             liquify(img, cx1, cy1, x, y)
             cv2.imshow(win_name, img)
 
-img = cv2.imread('./grid.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sudoku.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 h, w, _ = img.shape
 
 cv2.namedWindow(win_name)
