@@ -1,4 +1,5 @@
 import cv2
+import os.path as osp
 
 def onChange(r):
     global rate, draw
@@ -16,7 +17,10 @@ def mosaic(draw, x, y, w, h, rate):
 
 rate = 10
 win_name = 'Mosaic'
-img = cv2.imread('./sample.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sudoku.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 draw = img.copy()
 x, y, w, h = -1, -1, -1, -1
 
