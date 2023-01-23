@@ -1,5 +1,6 @@
 import cv2 
 import numpy as np
+import os.path as osp
 from matplotlib import pyplot as plt
 
 def stack_images(imgs):
@@ -9,9 +10,14 @@ def stack_images(imgs):
         img_dict[title] = img
     img_list.append(img_dict)
 
-img = cv2.imread('./grid.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sudoku.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
+img = cv2.resize(img, None, None, 0.5, 0.5, cv2.INTER_LINEAR)
+
 img_list = []
-stack_images([('Original', img)])
+stack_images([('Original', img[:, :, ::-1])])
 
 # Derivative
 gx_k = np.array([[-1, 1]])
