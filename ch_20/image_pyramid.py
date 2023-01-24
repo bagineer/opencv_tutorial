@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
+import os.path as osp
 
-img = cv2.imread('./sample.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 cv2.imshow('Original', img)
 h, w, _ = img.shape
-img = cv2.resize(img, (h-1, w-1))
+img = cv2.resize(img, (w-1, h-1))
 
 # Gaussian Pyramid
 smaller = cv2.pyrDown(img)
