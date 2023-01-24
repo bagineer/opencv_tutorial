@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
+import os.path as osp
 
-img = cv2.imread('./sample.jpg', cv2.IMREAD_GRAYSCALE)
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.png'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file, cv2.IMREAD_GRAYSCALE)
 img = cv2.resize(img, (400, 300), interpolation=cv2.INTER_LINEAR)
 # ret, img = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
 cv2.imshow('Original', img)
