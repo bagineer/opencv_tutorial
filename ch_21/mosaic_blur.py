@@ -1,9 +1,13 @@
 import cv2
+import os.path as osp
 
 win_name = "Mosaic with Blurring"
 ksize = 20
 
-img = cv2.imread('./sample.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'sample.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 cv2.imshow(win_name, img)
 
 while True:
