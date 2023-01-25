@@ -1,6 +1,8 @@
 import cv2
-import numpy as np
 import glob
+import os
+import os.path as osp
+
 
 def img2hash(img):
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -16,7 +18,10 @@ def hamming_distance(a, b):
     return dist
 
 
-img = cv2.imread('./pistol.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+file_name = 'pistol.jpg'
+img_file = osp.join(file_path, file_name)
+img = cv2.imread(img_file)
 
 # Hasing
 binary = img2hash(img)
@@ -33,7 +38,7 @@ cv2.putText(img, dhash, (10, 20), cv2.FONT_HERSHEY_PLAIN,
 query = img2hash(img)
 HAMMING_DIST_THRESHOLD = 0.25
 
-search_dir = './101_ObjectCategories'
+search_dir = osp.join(file_path, os.pardir, '101_ObjectCategories')
 img_path = glob.glob(search_dir + '/**/*.jpg')
 
 for path in img_path:
