@@ -1,7 +1,11 @@
 import cv2
+import os.path as osp
 
-matching = cv2.imread('./figures.jpg')
-template = cv2.imread('./taekwonv3.jpg')
+file_path = osp.dirname(osp.abspath(__file__))
+img_match = osp.join(file_path, 'figures.jpg')
+img_template = osp.join(file_path, 'taekwonv3.jpg')
+matching = cv2.imread(img_match)
+template = cv2.imread(img_template)
 th, tw, _ = template.shape
 win_name = 'Template Matching'
 
